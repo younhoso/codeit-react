@@ -6,14 +6,14 @@ function FileInput({ name, value, onChange }) {
   const handleChange = (e) => {
     const nextFile = e.target.files[0];
     onChange(name, nextFile)
-  }
+  };
 
   const handleClearClick = () => {
     const inputNode = inputRef.current;
     if(!inputNode) return;
     inputNode.value = '';
     onChange(name, null);
-  }
+  };
 
   return (
     <div>
