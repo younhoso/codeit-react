@@ -1,19 +1,25 @@
 import React, { useState } from "react";
+import FileInput from "./FileInput";
 
 function ReviewForm() {
   const [values, setValues] = useState({
     title: '',
     rating: 0,
-    content: ''
-  })
+    content: '',
+    imgFile: null
+  });
 
-  const handleChange = (e) => {
+  const handleChange = (name, value) => {
+    setValues((prevValues) => ({
+     ...prevValues,
+     [name]: value
+    }));
+  };
+
+  const handleInputChange = (e) => {
    const { name, value } = e.target;
-   setValues((prevValues) => ({
-    ...prevValues,
-    [name]: value
-   }))
-  }
+   handleChange(name, value);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -22,9 +28,10 @@ function ReviewForm() {
 
   return(
     <form onSubmit={handleSubmit}>
-      <input name="title" value={values.title} onChange={handleChange} />
-      <input type="number" name="rating" value={values.rating} onChange={handleChange} />
-      <textarea name="content" value={values.content} onChange={handleChange}></textarea>
+      <FileInput name="imgFile" value={values.imgFile} onChange={handleChange}/>
+      <input name="title" value={values.title} onChange={handleInputChange} />
+      <input type="number" name="rating" value={values.rating} onChange={handleInputChange} />
+      <textarea name="content" value={values.content} onChange={handleInputChange}></textarea>
       <button type="submit">확인</button>
     </form>
   )
