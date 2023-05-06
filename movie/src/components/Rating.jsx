@@ -2,17 +2,29 @@ import React from "react";
 import '../styles/index';
 const RATINGS = [1, 2, 3, 4, 5];
 
-function Star({selected = false}){
+function Star({selected = false, rating, onSelect, onHover}){
   const className = `Rating-star ${selected ? 'selected' : ''}`;
-  return <span className={className}>★</span>;
+  
+  const handleClick = onSelect && (() => onSelect(rating));
+
+  const handleHover = onSelect && (() => onHover(rating));
+
+  return <span className={className} onClick={handleClick} onMouseOver={handleHover}>★</span>;
 };
 
-function Rating({value = 0}){
+function Rating({value = 0, onSelect, onHover, onMouseOut}){
+  
   return (
-    <div>
+    <div onMouseOut={onMouseOut}>
       {
         RATINGS.map((rating) => (
-          <Star key={rating} selected={value >= rating} />
+          <Star 
+            key={rating} 
+            selected={value >= rating} 
+            rating={rating} 
+            onSelect={onSelect} 
+            onHover={onHover}
+          />
         ))
       }
     </div>
