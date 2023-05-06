@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import FoodList from "./components/FoodList";
-import { getReviews } from "./api";
+import { getFoods } from "./api";
 import FoodForm from "./components/FoodForm";
 
 function App() {
@@ -26,7 +26,7 @@ function App() {
     try {
       setIsLoading(true);
       setLoadingError(null);
-      result = await getReviews(orderQuery);
+      result = await getFoods(orderQuery);
     } catch(error) {
       setLoadingError(error);
       return;
@@ -52,6 +52,10 @@ function App() {
     setSearch(e.target['search'].value);
   }
 
+  const handleSubmitSuccess = (newItem) => {
+    setItems((prevItems) => [newItem, ...prevItems])
+  }
+
   useEffect(() => {
     handleLoad({order, search});
   }, [order, search]);
@@ -64,7 +68,7 @@ function App() {
         <input name="search" />
         <button type="submit">검색</button>
       </form>
-      <FoodForm />
+      <FoodForm onSubmitSuccess={handleSubmitSuccess}/>
       <FoodList items={sortedItems} onDelete={handleDelete} />
       {cursor && <button disabled={isLoading} onClick={handleLoadMore}>더보기</button>}
       {loadingError?.message && <span>{loadingError.message}</span>}

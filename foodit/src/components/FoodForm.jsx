@@ -1,14 +1,17 @@
 import React from "react";
 import { useState } from "react";
 import FileInput from "./FileInput";
+import { createFood } from "../api";
 
-function FoodForm() {
-  const [values, setValues] = useState({
-    title: '',
-    calorie: 0,
-    content: '',
-    imgFile: null
-  })
+const INITIAL_VALUES = {
+  title: '',
+  calorie: 0,
+  content: '',
+  imgFile: null
+};
+
+function FoodForm({onSubmitSuccess}) {
+  const [values, setValues] = useState(INITIAL_VALUES)
 
   const handleChange = (name, value) => {
     setValues((prevValues) => ({
@@ -22,9 +25,16 @@ function FoodForm() {
     handleChange(name, value);
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(values);
+    const formData = new FormData();
+    formData.append('title', values.title);
+    formData.append('imgFile', values.imgFile);
+    formData.append('calorie', values.calorie);
+    formData.append('content', values.content);
+    const { food } = await createFood(formData);
+    onSubmitSuccess(food);
+    setValues(INITIAL_VALUES)
   }
 
   return (
