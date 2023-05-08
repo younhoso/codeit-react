@@ -35,3 +35,16 @@ export const updateFood = async (id, formData) => {
   const body = await response.json();
   return body;
 }
+
+export const delecteFood = async (id) => {
+  const response = await fetch(
+    `${BASE_URL}/foods/${id}`,{
+      method: 'DELETE'
+    }
+  );
+  if(!response.ok){
+    throw new Error('데이터를 삭제하는데 실패했습니다!');
+  }
+  const body = await response.json();
+  return body;
+};
