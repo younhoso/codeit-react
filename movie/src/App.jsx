@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import ReviewList from "./components/ReviewList";
 import ReviewForm from "./components/ReviewForm";
 import useAsync from "./hooks/useAsync";
@@ -25,8 +25,8 @@ function App() {
     setItems((prevItems) => prevItems.filter((item) => item.id !== id));
   };
 
-  const handleLoad = async (options) => {
-    const result = await getReviewsAsync(options)
+  const handleLoad = useCallback(async (options) => {
+    const result = await getReviewsAsync(options);
     if(!result) return;
 
     const {paging, reviews} = result;
@@ -35,9 +35,9 @@ function App() {
     } else {
       setItems((prevItems) => [...prevItems, ...reviews]);
     }
-    setOffset(options.offset + reviews.length);
+    setOffset(options.offset + options.limit);
     setHasNext(paging.hasNext);
-  };
+  }, [getReviewsAsync]);
 
   const handleLoadMore = (e) => {
     handleLoad({ order, offset, limit: LIMIT });
@@ -60,7 +60,7 @@ function App() {
 
   useEffect(() => {
     handleLoad({ order, offset: 0, limit: LIMIT });
-  }, [order]);
+  }, [order, handleLoad]);
 
   return (
     <div className="App">
