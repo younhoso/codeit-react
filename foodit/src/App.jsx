@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import FoodList from "./components/FoodList";
-import { getFoods } from "./api";
 import FoodForm from "./components/FoodForm";
+import { createFood, getFoods, updateFood } from "./api";
 
 function App() {
   const [order, setOrder] = useState("createdAt");
@@ -52,9 +52,20 @@ function App() {
     setSearch(e.target['search'].value);
   }
 
-  const handleSubmitSuccess = (newItem) => {
+  const handleCreateSuccess = (newItem) => {
     setItems((prevItems) => [newItem, ...prevItems])
   }
+
+  const handleUpdateSuccess = (newItem) => {
+    setItems((prevItems) => {
+      const splitIdx = prevItems.findIndex((item) => item.id === newItem.id);
+      return [
+        ...prevItems.slice(0, splitIdx),
+        newItem,
+        ...prevItems.slice(splitIdx + 1),
+      ];
+    });
+  };
 
   useEffect(() => {
     handleLoad({order, search});
@@ -68,8 +79,8 @@ function App() {
         <input name="search" />
         <button type="submit">검색</button>
       </form>
-      <FoodForm onSubmitSuccess={handleSubmitSuccess}/>
-      <FoodList items={sortedItems} onDelete={handleDelete} />
+      <FoodForm onSubmit={createFood} onSubmitSuccess={handleCreateSuccess}/>
+      <FoodList items={sortedItems} onUpdate={updateFood} onUpdateSuccess={handleUpdateSuccess} onDelete={handleDelete} />
       {cursor && <button disabled={isLoading} onClick={handleLoadMore}>더보기</button>}
       {loadingError?.message && <span>{loadingError.message}</span>}
     </div>
