@@ -47,7 +47,6 @@ function App() {
   };
 
   const handleLoadMore = (e) => {
-    console.log(e.currentTarget.disabled)
     handleLoad({ order, offset, limit: LIMIT });
   };
 
