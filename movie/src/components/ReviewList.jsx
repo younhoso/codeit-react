@@ -1,14 +1,14 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { formatDate } from "../utils";
+import { useLocale } from "../contexts/LocaleContext";
 import Rating from "./Rating";
 import ReviewForm from "./ReviewForm";
 import "../styles/index.scss";
-import LocaleContext from "../contexts/LocaleContext";
 
 const ReviewListItem = ({ item, onDelete, onEdit }) => {
   const { id, imgUrl, title, rating, createdAt, content } = item;
 
-  const locale = useContext(LocaleContext);
+  const locale = useLocale();
 
   const handleDeleteClick = () => onDelete(id);
 
