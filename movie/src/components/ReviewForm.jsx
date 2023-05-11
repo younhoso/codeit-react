@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import FileInput from "./FileInput";
 import RatingInput from "./RatingInput";
 import useAsync from "../hooks/useAsync";
+import useTranslate from "../hooks/useTranslate";
 
 const INITIAL_VALUES = {
   title: '',
@@ -13,6 +14,7 @@ const INITIAL_VALUES = {
 function ReviewForm({ initialValues = INITIAL_VALUES, initialPreview, onSubmit, onCancel, onSubmitSuccess }) {
   const [isSubmitting, submittingError, onSubmitAsync] = useAsync(onSubmit);
   const [values, setValues] = useState(initialValues);
+  const t = useTranslate();
 
   const handleChange = (name, value) => {
     setValues((prevValues) => ({
@@ -47,8 +49,8 @@ function ReviewForm({ initialValues = INITIAL_VALUES, initialPreview, onSubmit, 
       <input name="title" value={values.title} onChange={handleInputChange} />
       <RatingInput name="rating" value={values.rating} onChange={handleChange} />
       <textarea name="content" value={values.content} onChange={handleInputChange}></textarea>
-      <button type="submit" disabled={isSubmitting}>확인</button>
-      {onCancel && <button onClick={onCancel}>취소</button>}
+      <button type="submit" disabled={isSubmitting}>{t('confirm button')}</button>
+      {onCancel && <button onClick={onCancel}>{t('cancel button')}</button>}
       {submittingError?.message && <div>{submittingError.message}</div>}
     </form>
   )
