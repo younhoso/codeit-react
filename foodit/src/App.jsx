@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import FoodList from "./components/FoodList";
 import FoodForm from "./components/FoodForm";
 import { createFood, delecteFood, getFoods, updateFood } from "./api";
+import { LocaleProvider } from "./contexts/LocaleContext";
+import LocaleSelect from "./components/LocaleSelect";
 
 function App() {
   const [order, setOrder] = useState("createdAt");
@@ -74,7 +76,9 @@ function App() {
   }, [order, search]);
 
   return (
+    <LocaleProvider defaultValue={'ko'}>
     <div>
+    <LocaleSelect />
       <button onClick={handleNewestClick}>최신순</button>
       <button onClick={handleCalorieClick}>칼로리순</button>
       <form onSubmit={handleSearchSubmit}>
@@ -86,6 +90,7 @@ function App() {
       {cursor && <button disabled={isLoading} onClick={handleLoadMore}>더보기</button>}
       {loadingError?.message && <span>{loadingError.message}</span>}
     </div>
+    </LocaleProvider>
   );
 }
 
