@@ -1,4 +1,4 @@
-const BASE_URL = 'https://learn.codeit.kr/2024/api';
+const BASE_URL = 'https://learn.codeit.kr/2024';
 
 export async function getFoods({
   order = '',
