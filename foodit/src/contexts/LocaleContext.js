@@ -1,18 +1,17 @@
-import React, {createContext, useContext, useState} from 'react';
+import { createContext, useContext, useState } from 'react';
+
 const LocaleContext = createContext();
 
-/* 컴포넌트 중에서 범위를 지정 하여 Context 사용할수 있게하는 함수*/
-export function LocaleProvider({ defaultValue = 'ko', children }){
+export function LocaleProvider({ defaultValue, children }) {
   const [locale, setLocale] = useState(defaultValue);
 
-  return(
-    <LocaleContext.Provider value={{locale, setLocale}}>
+  return (
+    <LocaleContext.Provider value={{ locale, setLocale }}>
       {children}
     </LocaleContext.Provider>
   );
 }
 
-/* 값을 전달하는 Hook */
 export function useLocale() {
   const context = useContext(LocaleContext);
 
@@ -25,7 +24,6 @@ export function useLocale() {
   return locale;
 }
 
-/* 값을 변경할때 사용하는 Hook */
 export function useSetLocale() {
   const context = useContext(LocaleContext);
 
@@ -37,4 +35,3 @@ export function useSetLocale() {
 
   return setLocale;
 }
-

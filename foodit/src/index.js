@@ -1,7 +1,10 @@
-import React from "react";
-import { createRoot } from "react-dom/client";
-import App from "./App";
+import ReactDOM from 'react-dom';
+import App from './components/App';
+import { LocaleProvider } from './contexts/LocaleContext';
 
-const rootElement = document.getElementById("root");
-const root = createRoot(rootElement);
-root.render(<App />);
+ReactDOM.render(
+  <LocaleProvider defaultValue="ko">
+    <App />
+  </LocaleProvider>,
+  document.getElementById('root')
+);
